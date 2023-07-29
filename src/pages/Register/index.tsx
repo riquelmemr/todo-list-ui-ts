@@ -1,42 +1,34 @@
-import { Box, Button, Grid, Link, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Box, Button, Grid, Link } from '@mui/material';
+import React, { useState } from 'react';
 
 import FormHeaderLogin from '../../components/FormHeaderLogin';
 import LogoComponent from '../../components/Logo';
 import TextInput from '../../components/TextInput';
 import { GridItem } from '../../components/Wrappers/GridItem';
 import { useAppDispatch } from '../../store/hooks';
-import { loginUser } from '../../store/modules/users/usersSlice';
-import { UserLogged } from '../../types/user';
+import { createUser } from '../../store/modules/users/usersSlice';
+import { User } from '../../types/user';
 
 import Logo from '/assets/logo.png';
 
-const Login: React.FC = () => {
+const Register: React.FC = () => {
+	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
-	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 
 	const handleSubmit = (ev: React.FormEvent) => {
 		ev.preventDefault();
 
-		const user: UserLogged = {
+		const user: User = {
+			name,
 			email,
 			password,
 		};
 
-		dispatch(loginUser(user));
+		dispatch(createUser(user));
 	};
-
-	useEffect(() => {
-		const auth = sessionStorage.getItem('auth');
-
-		if (auth) {
-			navigate('/dashboard');
-		}
-	}, []);
 
 	return (
 		<Grid
@@ -76,9 +68,17 @@ const Login: React.FC = () => {
 						gap={2}
 					>
 						<GridItem item xs={12}>
-							<FormHeaderLogin context="login" />
+							<FormHeaderLogin context="register" />
 						</GridItem>
 						<GridItem item xs={12} mt={2}>
+							<TextInput
+								label="Digite seu nome"
+								type="text"
+								value={name}
+								setValue={setName}
+							/>
+						</GridItem>
+						<GridItem item xs={12}>
 							<TextInput
 								label="Digite seu e-mail"
 								type="email"
@@ -95,15 +95,9 @@ const Login: React.FC = () => {
 							/>
 						</Grid>
 						<GridItem item xs={12}>
-							<Typography>
-								Não tem uma conta?{' '}
-								<Link
-									href="/register"
-									sx={{ color: '#5909b6' }}
-								>
-									Cadastre-se.
-								</Link>
-							</Typography>
+							<Link href="/" sx={{ color: '#5909b6' }}>
+								Voltar para a página de login.
+							</Link>
 						</GridItem>
 						<Grid item xs={12} mt={2}>
 							<Button
@@ -127,4 +121,4 @@ const Login: React.FC = () => {
 	);
 };
 
-export default Login;
+export default Register;

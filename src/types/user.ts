@@ -1,8 +1,7 @@
 export interface User {
-	id: string;
 	name: string;
 	email: string;
-	isLogged: boolean;
+	password: string;
 }
 
-export type UserLogged = Omit<User, 'isLogged' | 'id'>;
+export type UserLogged = Omit<User, 'name'>;
