@@ -35,11 +35,11 @@ const Home = () => {
 					<SearchComponent />
 				</GridItem>
 				<Grid item xs={12}>
-					<Grid container gap={2}>
+					<Grid container spacing={2}>
 						{tasks
 							.filter((task) => !task.archived)
 							.map((task) => (
-								<Grid key={task.id} item xs={12} sm={6}>
+								<Grid key={task.id} item xs={12} sm={6} md={4}>
 									<TaskCard task={task} />
 								</Grid>
 							))}

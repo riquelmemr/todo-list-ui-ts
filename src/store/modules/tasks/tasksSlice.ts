@@ -119,7 +119,7 @@ const tasksSlice = createSlice({
 			state.loading = false;
 
 			if (action.payload.success) {
-				tasksAdapter.removeOne(state, action.payload.id);
+				tasksAdapter.removeOne(state, action.payload.body.id);
 			}
 
 			state.status = action.payload.status;
@@ -166,7 +166,6 @@ const tasksSlice = createSlice({
 			state.status = action.payload.status;
 
 			if (action.payload.success) {
-				console.log('action.payload.body', action.payload.body);
 				tasksAdapter.updateOne(state, {
 					id: action.payload.body.id,
 					changes: action.payload.body,

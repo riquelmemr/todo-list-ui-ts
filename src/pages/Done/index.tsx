@@ -39,7 +39,7 @@ const Done = () => {
 						{tasks
 							.filter((task) => !task.archived && task.done)
 							.map((task) => (
-								<Grid key={task.id} item xs={12} sm={6}>
+								<Grid key={task.id} item xs={12} sm={6} md={4}>
 									<TaskCard task={task} />
 								</Grid>
 							))}

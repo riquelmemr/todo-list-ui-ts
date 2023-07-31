@@ -154,7 +154,7 @@ const Modal: React.FC<ModalProps> = ({ task, context, open, setOpen }) => {
 									InputProps={{
 										disableUnderline: true,
 										style: {
-											color: '#aaa',
+											color: '#ffffff',
 											fontSize: '14px',
 										},
 									}}
@@ -206,7 +206,13 @@ const Modal: React.FC<ModalProps> = ({ task, context, open, setOpen }) => {
 					<Button
 						variant="contained"
 						onClick={() => setOpen(false)}
-						sx={{ bgcolor: 'theme.palette.primary.light' }}
+						sx={{
+							bgcolor: theme.palette.primary.light,
+							color: '#000',
+							':hover': {
+								bgcolor: '#acacac',
+							},
+						}}
 					>
 						{context === 'create' || context === 'update'
 							? 'Cancelar'
@@ -216,6 +222,13 @@ const Modal: React.FC<ModalProps> = ({ task, context, open, setOpen }) => {
 						variant="contained"
 						onClick={() => {
 							handleSubmit();
+						}}
+						sx={{
+							bgcolor: theme.palette.primary.light,
+							color: '#000',
+							':hover': {
+								bgcolor: '#acacac',
+							},
 						}}
 					>
 						{context === 'create'

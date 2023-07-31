@@ -85,17 +85,6 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 							<Button
 								size="small"
 								variant="contained"
-								onClick={() => {
-									setIsDelete(false);
-									setIsUpdate(false);
-									setOpen(true);
-								}}
-							>
-								Restaurar
-							</Button>
-							<Button
-								size="small"
-								variant="contained"
 								sx={{
 									bgcolor: '#c93f3f',
 									'&:hover': { bgcolor: '#921212' },
@@ -161,37 +150,39 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 					<Typography variant="body2" component="div">
 						{task.createdAt}
 					</Typography>
-					{task.archived ? (
-						<IconButton
-							sx={{ color: '#fff' }}
-							onClick={() => {
-								handleArchived();
-							}}
-						>
-							<Archive />
-						</IconButton>
-					) : (
-						<IconButton
-							sx={{ color: '#fff' }}
-							onClick={() => handleArchived()}
-						>
-							<ArchiveOutlined />
-						</IconButton>
-					)}
-					{task.archived && (
-						<IconButton
-							sx={{ color: '#fff' }}
-							onClick={() => {
-								handleDone();
-							}}
-						>
-							{task.done ? (
-								<CheckCircle />
-							) : (
-								<CheckCircleOutline />
-							)}
-						</IconButton>
-					)}
+					<Box component={'div'}>
+						{task.archived ? (
+							<IconButton
+								sx={{ color: '#fff' }}
+								onClick={() => {
+									handleArchived();
+								}}
+							>
+								<Archive />
+							</IconButton>
+						) : (
+							<IconButton
+								sx={{ color: '#fff' }}
+								onClick={() => handleArchived()}
+							>
+								<ArchiveOutlined />
+							</IconButton>
+						)}
+						{!task.archived && (
+							<IconButton
+								sx={{ color: '#fff' }}
+								onClick={() => {
+									handleDone();
+								}}
+							>
+								{task.done ? (
+									<CheckCircle />
+								) : (
+									<CheckCircleOutline />
+								)}
+							</IconButton>
+						)}
+					</Box>
 				</CardActions>
 			</Card>
 
