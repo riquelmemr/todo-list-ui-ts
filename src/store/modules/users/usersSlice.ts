@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
 	createAsyncThunk,
 	createEntityAdapter,
@@ -6,6 +7,7 @@ import {
 
 import { api } from '../../../configs/services/api';
 import { User, UserLogged } from '../../../types/user';
+import { showNotification } from '../notifications/notificationsSlice';
 
 const usersAdapter = createEntityAdapter<User>({
 	selectId: (state) => state.email,
@@ -13,7 +15,7 @@ const usersAdapter = createEntityAdapter<User>({
 
 export const createUser = createAsyncThunk(
 	'users/createUser',
-	async (user: User) => {
+	async (user: User, { dispatch }) => {
 		try {
 			const response = await api.post(`/user/create`, {
 				name: user.name,
@@ -21,11 +23,22 @@ export const createUser = createAsyncThunk(
 				password: user.password,
 			});
 
-			console.log(response.data);
+			dispatch(
+				showNotification({
+					success: true,
+					status: response.data.status,
+				}),
+			);
 
 			return response.data;
 		} catch (error: any) {
-			console.log(error.response.data);
+			dispatch(
+				showNotification({
+					success: false,
+					status: error.response.data.error,
+				}),
+			);
+
 			return error.response.data;
 		}
 	},
@@ -33,15 +46,29 @@ export const createUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
 	'users/loginUser',
-	async (user: UserLogged) => {
+	async (user: UserLogged, { dispatch }) => {
 		try {
 			const response = await api.post(`/user/login`, {
 				email: user.email,
 				password: user.password,
 			});
 
+			dispatch(
+				showNotification({
+					success: true,
+					status: response.data.status,
+				}),
+			);
+
 			return response.data;
 		} catch (error: any) {
+			dispatch(
+				showNotification({
+					success: false,
+					status: error.response.data.error,
+				}),
+			);
+
 			return error.response.data;
 		}
 	},

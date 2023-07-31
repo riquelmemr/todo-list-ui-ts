@@ -3,16 +3,16 @@ import { createTheme } from '@mui/material';
 export const theme = createTheme({
 	palette: {
 		primary: {
-			main: '#000',
-			dark: '#000',
+			main: '#111',
+			light: '#fff',
 		},
 		secondary: {
-			main: '#000',
+			main: '#111',
 			light: '#fff',
 			contrastText: '#eee',
 		},
 	},
 	typography: {
-		fontFamily: ['League Spartan', 'Open Sans'].join(','),
+		fontFamily: ['League Spartan', 'Sans-serif'].join(','),
 	},
 });

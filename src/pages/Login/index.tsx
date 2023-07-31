@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom';
 
 import FormHeaderLogin from '../../components/FormHeaderLogin';
 import LogoComponent from '../../components/Logo';
+import { NotificationComponent } from '../../components/Notification';
 import TextInput from '../../components/TextInput';
 import { GridItem } from '../../components/Wrappers/GridItem';
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { loginUser } from '../../store/modules/users/usersSlice';
 import { UserLogged } from '../../types/user';
 
@@ -18,6 +19,7 @@ const Login: React.FC = () => {
 
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
+	const { status } = useAppSelector((state) => state.users);
 
 	const handleSubmit = (ev: React.FormEvent) => {
 		ev.preventDefault();
@@ -28,102 +30,111 @@ const Login: React.FC = () => {
 		};
 
 		dispatch(loginUser(user));
+
+		console.log(status);
+		if (status.includes('sucesso')) {
+			navigate('/dashboard');
+		}
 	};
 
 	useEffect(() => {
 		const auth = sessionStorage.getItem('auth');
 
 		if (auth) {
-			navigate('/dashboard');
+			navigate('/home');
 		}
-	}, []);
+	}, [navigate]);
 
 	return (
-		<Grid
-			container
-			component={'main'}
-			height={'100vh'}
-			bgcolor={'black'}
-			display={'flex'}
-		>
-			<Box
-				component={'img'}
-				src={Logo}
-				width={'60px'}
-				sx={{
-					display: { xs: 'block', md: 'none' },
-					position: 'absolute',
-					top: '10px',
-					left: '10px',
-				}}
-			/>
-			<LogoComponent />
-			<GridItem item xs={12} md={6}>
+		<>
+			<Grid
+				container
+				component={'main'}
+				height={'100vh'}
+				bgcolor={'black'}
+				display={'flex'}
+			>
 				<Box
-					component={'form'}
-					onSubmit={(ev: React.FormEvent) => handleSubmit(ev)}
+					component={'img'}
+					src={Logo}
+					width={'60px'}
 					sx={{
-						maxWidth: { xs: '80vw', sm: '60vw', md: '35vw' },
-						margin: '0 auto',
-						bgcolor: '#fff',
-						borderRadius: '8px',
+						display: { xs: 'block', md: 'none' },
+						position: 'absolute',
+						top: '10px',
+						left: '10px',
 					}}
-				>
-					<Grid
-						container
-						justifyContent={'center'}
-						padding={3}
-						gap={2}
+				/>
+				<LogoComponent />
+				<GridItem item xs={12} md={6}>
+					<Box
+						component={'form'}
+						onSubmit={(ev: React.FormEvent) => handleSubmit(ev)}
+						sx={{
+							maxWidth: { xs: '80vw', sm: '60vw', md: '35vw' },
+							margin: '0 auto',
+							bgcolor: '#fff',
+							borderRadius: '8px',
+						}}
 					>
-						<GridItem item xs={12}>
-							<FormHeaderLogin context="login" />
-						</GridItem>
-						<GridItem item xs={12} mt={2}>
-							<TextInput
-								label="Digite seu e-mail"
-								type="email"
-								value={email}
-								setValue={setEmail}
-							/>
-						</GridItem>
-						<Grid item xs={12}>
-							<TextInput
-								label="Digite sua senha"
-								type="password"
-								value={password}
-								setValue={setPassword}
-							/>
-						</Grid>
-						<GridItem item xs={12}>
-							<Typography>
-								Não tem uma conta?{' '}
-								<Link
-									href="/register"
-									sx={{ color: '#5909b6' }}
+						<Grid
+							container
+							justifyContent={'center'}
+							padding={3}
+							gap={2}
+						>
+							<GridItem item xs={12}>
+								<FormHeaderLogin context="login" />
+							</GridItem>
+							<GridItem item xs={12} mt={2}>
+								<TextInput
+									label="Digite seu e-mail"
+									type="email"
+									value={email}
+									setValue={setEmail}
+								/>
+							</GridItem>
+							<Grid item xs={12}>
+								<TextInput
+									label="Digite sua senha"
+									type="password"
+									value={password}
+									setValue={setPassword}
+								/>
+							</Grid>
+							<GridItem item xs={12}>
+								<Typography>
+									Não tem uma conta?{' '}
+									<Link
+										href="/register"
+										sx={{ color: '#5909b6' }}
+									>
+										Cadastre-se.
+									</Link>
+								</Typography>
+							</GridItem>
+							<Grid item xs={12} mt={2}>
+								<Button
+									type="submit"
+									variant="contained"
+									sx={{
+										padding: '10px',
+										':hover': {
+											backgroundColor: '#222222',
+										},
+									}}
+									fullWidth
 								>
-									Cadastre-se.
-								</Link>
-							</Typography>
-						</GridItem>
-						<Grid item xs={12} mt={2}>
-							<Button
-								type="submit"
-								variant="contained"
-								sx={{
-									padding: '10px',
-									':hover': {
-										backgroundColor: '#222222',
-									},
-								}}
-								fullWidth
-							>
-								Entrar
-							</Button>
+									Entrar
+								</Button>
+							</Grid>
 						</Grid>
-					</Grid>
-				</Box>
-			</GridItem>
-		</Grid>
+					</Box>
+				</GridItem>
+			</Grid>
+
+			<NotificationComponent />
+		</>
 	);
 };
 

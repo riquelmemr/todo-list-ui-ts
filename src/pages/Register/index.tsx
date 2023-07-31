@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 
 import FormHeaderLogin from '../../components/FormHeaderLogin';
 import LogoComponent from '../../components/Logo';
+import { NotificationComponent } from '../../components/Notification';
 import TextInput from '../../components/TextInput';
 import { GridItem } from '../../components/Wrappers/GridItem';
 import { useAppDispatch } from '../../store/hooks';
@@ -31,93 +32,97 @@ const Register: React.FC = () => {
 	};
 
 	return (
-		<Grid
-			container
-			component={'main'}
-			height={'100vh'}
-			bgcolor={'black'}
-			display={'flex'}
-		>
-			<Box
-				component={'img'}
-				src={Logo}
-				width={'60px'}
-				sx={{
-					display: { xs: 'block', md: 'none' },
-					position: 'absolute',
-					top: '10px',
-					left: '10px',
-				}}
-			/>
-			<LogoComponent />
-			<GridItem item xs={12} md={6}>
+		<>
+			<Grid
+				container
+				component={'main'}
+				height={'100vh'}
+				bgcolor={'black'}
+				display={'flex'}
+			>
 				<Box
-					component={'form'}
-					onSubmit={(ev: React.FormEvent) => handleSubmit(ev)}
+					component={'img'}
+					src={Logo}
+					width={'60px'}
 					sx={{
-						maxWidth: { xs: '80vw', sm: '60vw', md: '35vw' },
-						margin: '0 auto',
-						bgcolor: '#fff',
-						borderRadius: '8px',
+						display: { xs: 'block', md: 'none' },
+						position: 'absolute',
+						top: '10px',
+						left: '10px',
 					}}
-				>
-					<Grid
-						container
-						justifyContent={'center'}
-						padding={3}
-						gap={2}
+				/>
+				<LogoComponent />
+				<GridItem item xs={12} md={6}>
+					<Box
+						component={'form'}
+						onSubmit={(ev: React.FormEvent) => handleSubmit(ev)}
+						sx={{
+							maxWidth: { xs: '80vw', sm: '60vw', md: '35vw' },
+							margin: '0 auto',
+							bgcolor: '#fff',
+							borderRadius: '8px',
+						}}
 					>
-						<GridItem item xs={12}>
-							<FormHeaderLogin context="register" />
-						</GridItem>
-						<GridItem item xs={12} mt={2}>
-							<TextInput
-								label="Digite seu nome"
-								type="text"
-								value={name}
-								setValue={setName}
-							/>
-						</GridItem>
-						<GridItem item xs={12}>
-							<TextInput
-								label="Digite seu e-mail"
-								type="email"
-								value={email}
-								setValue={setEmail}
-							/>
-						</GridItem>
-						<Grid item xs={12}>
-							<TextInput
-								label="Digite sua senha"
-								type="password"
-								value={password}
-								setValue={setPassword}
-							/>
+						<Grid
+							container
+							justifyContent={'center'}
+							padding={3}
+							gap={2}
+						>
+							<GridItem item xs={12}>
+								<FormHeaderLogin context="register" />
+							</GridItem>
+							<GridItem item xs={12} mt={2}>
+								<TextInput
+									label="Digite seu nome"
+									type="text"
+									value={name}
+									setValue={setName}
+								/>
+							</GridItem>
+							<GridItem item xs={12}>
+								<TextInput
+									label="Digite seu e-mail"
+									type="email"
+									value={email}
+									setValue={setEmail}
+								/>
+							</GridItem>
+							<Grid item xs={12}>
+								<TextInput
+									label="Digite sua senha"
+									type="password"
+									value={password}
+									setValue={setPassword}
+								/>
+							</Grid>
+							<GridItem item xs={12}>
+								<Link href="/" sx={{ color: '#5909b6' }}>
+									Voltar para a página de login.
+								</Link>
+							</GridItem>
+							<Grid item xs={12} mt={2}>
+								<Button
+									type="submit"
+									variant="contained"
+									sx={{
+										padding: '10px',
+										':hover': {
+											backgroundColor: '#222222',
+										},
+									}}
+									fullWidth
+								>
+									Criar conta
+								</Button>
+							</Grid>
 						</Grid>
-						<GridItem item xs={12}>
-							<Link href="/" sx={{ color: '#5909b6' }}>
-								Voltar para a página de login.
-							</Link>
-						</GridItem>
-						<Grid item xs={12} mt={2}>
-							<Button
-								type="submit"
-								variant="contained"
-								sx={{
-									padding: '10px',
-									':hover': {
-										backgroundColor: '#222222',
-									},
-								}}
-								fullWidth
-							>
-								Entrar
-							</Button>
-						</Grid>
-					</Grid>
-				</Box>
-			</GridItem>
-		</Grid>
+					</Box>
+				</GridItem>
+			</Grid>
+
+			<NotificationComponent />
+		</>
 	);
 };
 
