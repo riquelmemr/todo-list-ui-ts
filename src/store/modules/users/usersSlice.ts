@@ -96,13 +96,14 @@ const usersSlice = createSlice({
 
 		builder.addCase(loginUser.fulfilled, (state, action) => {
 			state.loading = false;
+			state.status = action.payload.status;
+
+			console.log('status', state.status);
 
 			if (action.payload.success) {
 				sessionStorage.setItem('auth', action.payload.body.id);
 				return;
 			}
-
-			state.status = action.payload.status;
 		});
 		builder.addCase(loginUser.pending, (state) => {
 			state.loading = true;

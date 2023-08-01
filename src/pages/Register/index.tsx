@@ -1,12 +1,15 @@
 import { Box, Button, Grid, Link } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import FormHeaderLogin from '../../components/FormHeaderLogin';
 import LogoComponent from '../../components/Logo';
 import { NotificationComponent } from '../../components/Notification';
 import TextInput from '../../components/TextInput';
 import { GridItem } from '../../components/Wrappers/GridItem';
-import { useAppDispatch } from '../../store/hooks';
+import { validationCreateAccount } from '../../helpers/validation-login';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { showNotification } from '../../store/modules/notifications/notificationsSlice';
 import { createUser } from '../../store/modules/users/usersSlice';
 import { User } from '../../types/user';
 
@@ -17,10 +20,29 @@ const Register: React.FC = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
+	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
+	const { status, loading } = useAppSelector((state) => state.users);
 
 	const handleSubmit = (ev: React.FormEvent) => {
 		ev.preventDefault();
+
+		const { success, message } = validationCreateAccount(
+			name,
+			email,
+			password,
+		);
+
+		if (!success) {
+			dispatch(
+				showNotification({
+					success,
+					status: message,
+				}),
+			);
+
+			return;
+		}
 
 		const user: User = {
 			name,
@@ -30,6 +52,14 @@ const Register: React.FC = () => {
 
 		dispatch(createUser(user));
 	};
+
+	useEffect(() => {
+		const auth = sessionStorage.getItem('auth');
+
+		if (auth && status === 'Usuário criado com sucesso!') {
+			navigate('/home');
+		}
+	}, [status]);
 
 	return (
 		<>
@@ -113,7 +143,7 @@ const Register: React.FC = () => {
 									}}
 									fullWidth
 								>
-									Criar conta
+									{loading ? 'Carregando...' : 'Cadastrar'}
 								</Button>
 							</Grid>
 						</Grid>

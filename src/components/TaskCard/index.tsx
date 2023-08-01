@@ -53,7 +53,11 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 			<Card
 				sx={{
 					width: '100%',
-					backgroundColor: task.archived ? '#272727' : '#333333',
+					backgroundColor: task.done
+						? '#131313'
+						: task.archived
+						? '#5c5c5c'
+						: '#3b3b3b',
 					color: theme.palette.secondary.contrastText,
 					borderRadius: '8px',
 				}}

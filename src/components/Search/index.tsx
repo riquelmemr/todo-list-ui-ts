@@ -1,6 +1,7 @@
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { alpha, styled } from '@mui/material/styles';
+import React from 'react';
 
 const Search = styled('div')(({ theme }) => ({
 	position: 'relative',
@@ -39,7 +40,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 	},
 }));
 
-const SearchComponent = () => {
+interface SearchComponentProps {
+	search: string;
+	setSearch: (search: string) => void;
+}
+
+const SearchComponent: React.FC<SearchComponentProps> = ({
+	search,
+	setSearch,
+}) => {
 	return (
 		<Search>
 			<SearchIconWrapper>
@@ -47,6 +56,8 @@ const SearchComponent = () => {
 			</SearchIconWrapper>
 			<StyledInputBase
 				placeholder="Busque por suas tarefas... "
+				value={search}
+				onChange={(e) => setSearch(e.target.value)}
 				inputProps={{ 'aria-label': 'search' }}
 			/>
 		</Search>

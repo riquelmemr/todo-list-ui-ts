@@ -7,7 +7,9 @@ import LogoComponent from '../../components/Logo';
 import { NotificationComponent } from '../../components/Notification';
 import TextInput from '../../components/TextInput';
 import { GridItem } from '../../components/Wrappers/GridItem';
+import { validationLogin } from '../../helpers/validation-login';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { showNotification } from '../../store/modules/notifications/notificationsSlice';
 import { loginUser } from '../../store/modules/users/usersSlice';
 import { UserLogged } from '../../types/user';
 
@@ -19,10 +21,24 @@ const Login: React.FC = () => {
 
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
-	const { status } = useAppSelector((state) => state.users);
+
+	const { status, loading } = useAppSelector((state) => state.users);
 
 	const handleSubmit = (ev: React.FormEvent) => {
 		ev.preventDefault();
+
+		const { success, message } = validationLogin(email, password);
+
+		if (!success) {
+			dispatch(
+				showNotification({
+					success,
+					status: message,
+				}),
+			);
+
+			return;
+		}
 
 		const user: UserLogged = {
 			email,
@@ -30,20 +46,15 @@ const Login: React.FC = () => {
 		};
 
 		dispatch(loginUser(user));
-
-		console.log(status);
-		if (status.includes('sucesso')) {
-			navigate('/dashboard');
-		}
 	};
 
 	useEffect(() => {
 		const auth = sessionStorage.getItem('auth');
 
-		if (auth) {
+		if (auth && status === 'Usuário logado com sucesso!') {
 			navigate('/home');
 		}
-	}, [navigate]);
+	}, [navigate, status]);
 
 	return (
 		<>
@@ -125,7 +136,7 @@ const Login: React.FC = () => {
 									}}
 									fullWidth
 								>
-									Entrar
+									{loading ? 'Carregando...' : 'Entrar'}
 								</Button>
 							</Grid>
 						</Grid>

@@ -8,6 +8,7 @@ import {
 import { RootState } from '../..';
 import { api } from '../../../configs/services/api';
 import { CreateTask, FiltersTask, Task, UpdateTask } from '../../../types/task';
+import { showNotification } from '../notifications/notificationsSlice';
 
 const tasksAdapter = createEntityAdapter<Task>({
 	selectId: (state) => state.id,
@@ -15,7 +16,7 @@ const tasksAdapter = createEntityAdapter<Task>({
 
 export const createTask = createAsyncThunk(
 	'tasks/createTask',
-	async (task: CreateTask) => {
+	async (task: CreateTask, { dispatch }) => {
 		try {
 			const userId = sessionStorage.getItem('auth');
 
@@ -24,10 +25,20 @@ export const createTask = createAsyncThunk(
 				description: task.description,
 			});
 
-			console.log(response.data);
+			dispatch(
+				showNotification({
+					success: true,
+					status: response.data.status,
+				}),
+			);
 			return response.data;
 		} catch (error: any) {
-			console.log(error.response.data);
+			dispatch(
+				showNotification({
+					success: false,
+					status: error.response.data.error,
+				}),
+			);
 			return error.response.data;
 		}
 	},
@@ -35,16 +46,27 @@ export const createTask = createAsyncThunk(
 
 export const deleteTask = createAsyncThunk(
 	'tasks/deleteTask',
-	async (id: string) => {
+	async (id: string, { dispatch }) => {
 		try {
 			const userId = sessionStorage.getItem('auth');
 
 			const response = await api.delete(`/task/${userId}/delete/${id}`);
 
-			console.log(response.data);
+			dispatch(
+				showNotification({
+					success: true,
+					status: response.data.status,
+				}),
+			);
+
 			return response.data;
 		} catch (error: any) {
-			console.log(error.response.data);
+			dispatch(
+				showNotification({
+					success: false,
+					status: error.response.data.error,
+				}),
+			);
 			return error.response.data;
 		}
 	},
@@ -52,7 +74,7 @@ export const deleteTask = createAsyncThunk(
 
 export const updateTask = createAsyncThunk(
 	'tasks/updateTask',
-	async (task: UpdateTask) => {
+	async (task: UpdateTask, { dispatch }) => {
 		try {
 			const userId = sessionStorage.getItem('auth');
 
@@ -61,10 +83,21 @@ export const updateTask = createAsyncThunk(
 				task,
 			);
 
-			console.log(response.data);
+			dispatch(
+				showNotification({
+					success: true,
+					status: response.data.status,
+				}),
+			);
+
 			return response.data;
 		} catch (error: any) {
-			console.log(error.response.data);
+			dispatch(
+				showNotification({
+					success: false,
+					status: error.response.data.error,
+				}),
+			);
 			return error.response.data;
 		}
 	},
@@ -72,7 +105,7 @@ export const updateTask = createAsyncThunk(
 
 export const findTasks = createAsyncThunk(
 	'tasks/findTasks',
-	async (filters: FiltersTask) => {
+	async (filters: FiltersTask, { dispatch }) => {
 		try {
 			const userId = sessionStorage.getItem('auth');
 
@@ -80,10 +113,14 @@ export const findTasks = createAsyncThunk(
 				params: filters,
 			});
 
-			console.log(response.data);
 			return response.data;
 		} catch (error: any) {
-			console.log(error.response.data);
+			dispatch(
+				showNotification({
+					success: false,
+					status: error.response.data.error,
+				}),
+			);
 			return error.response.data;
 		}
 	},
