@@ -1,9 +1,10 @@
 import { Add } from '@mui/icons-material';
-import { Fab, Grid, Typography } from '@mui/material';
+import { CircularProgress, Fab, Grid, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import MiniDrawer from '../../components/Drawer';
+import Filter from '../../components/FilterStatus';
 import Modal from '../../components/Modal';
 import { NotificationComponent } from '../../components/Notification';
 import SearchComponent from '../../components/Search';
@@ -19,6 +20,7 @@ const Home = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 
+	const { loading } = useAppSelector((state) => state.tasks);
 	const tasks = useAppSelector(findAllTasks);
 
 	useEffect(() => {
@@ -47,7 +49,17 @@ const Home = () => {
 		<MiniDrawer titlePage="Página Inicial">
 			<Grid container gap={2}>
 				<GridItem item xs={12}>
-					<SearchComponent search={search} setSearch={setSearch} />
+					<Grid container gap={2}>
+						<GridItem item xs={12}>
+							<SearchComponent
+								search={search}
+								setSearch={setSearch}
+							/>
+						</GridItem>
+						<GridItem item xs={12}>
+							<Filter />
+						</GridItem>
+					</Grid>
 				</GridItem>
 				<Grid item xs={12}>
 					<Grid container spacing={2}>
@@ -66,13 +78,20 @@ const Home = () => {
 									</Grid>
 								))}
 
-						{tasks.filter((t) => !t.archived).length === 0 && (
-							<Grid item xs={12}>
-								<Typography textAlign={'center'}>
-									Nenhuma tarefa encontrada ou cadastrada.
-								</Typography>
-							</Grid>
+						{loading && (
+							<GridItem item xs={12}>
+								<CircularProgress color="primary" size={25} />
+							</GridItem>
 						)}
+
+						{!loading &&
+							tasks.filter((t) => !t.archived).length === 0 && (
+								<Grid item xs={12}>
+									<Typography textAlign={'center'}>
+										Nenhuma tarefa encontrada ou cadastrada.
+									</Typography>
+								</Grid>
+							)}
 					</Grid>
 				</Grid>
 			</Grid>

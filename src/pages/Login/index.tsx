@@ -1,4 +1,11 @@
-import { Box, Button, Grid, Link, Typography } from '@mui/material';
+import {
+	Box,
+	Button,
+	CircularProgress,
+	Grid,
+	Link,
+	Typography,
+} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -129,6 +136,7 @@ const Login: React.FC = () => {
 									type="submit"
 									variant="contained"
 									sx={{
+										color: '#fff',
 										padding: '10px',
 										':hover': {
 											backgroundColor: '#222222',
@@ -136,7 +144,13 @@ const Login: React.FC = () => {
 									}}
 									fullWidth
 								>
-									{loading ? 'Carregando...' : 'Entrar'}
+									{loading && (
+										<CircularProgress
+											color="inherit"
+											size={25}
+										/>
+									)}
+									{!loading && 'Entrar'}
 								</Button>
 							</Grid>
 						</Grid>

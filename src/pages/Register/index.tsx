@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Link } from '@mui/material';
+import { Box, Button, CircularProgress, Grid, Link } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -56,8 +56,12 @@ const Register: React.FC = () => {
 	useEffect(() => {
 		const auth = sessionStorage.getItem('auth');
 
-		if (auth && status === 'Usuário criado com sucesso!') {
+		if (auth) {
 			navigate('/home');
+		}
+
+		if (status === 'Usuário criado com sucesso!') {
+			navigate('/');
 		}
 	}, [status]);
 
@@ -143,7 +147,13 @@ const Register: React.FC = () => {
 									}}
 									fullWidth
 								>
-									{loading ? 'Carregando...' : 'Cadastrar'}
+									{loading && (
+										<CircularProgress
+											color="inherit"
+											size={25}
+										/>
+									)}
+									{!loading && 'Cadastrar'}
 								</Button>
 							</Grid>
 						</Grid>

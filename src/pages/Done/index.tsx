@@ -28,6 +28,7 @@ const Done = () => {
 
 		dispatch(
 			findTasks({
+				archived: false,
 				done: true,
 			}),
 		);
@@ -36,6 +37,7 @@ const Done = () => {
 	useEffect(() => {
 		dispatch(
 			findTasks({
+				archived: false,
 				done: true,
 				title: search,
 			}),
@@ -50,8 +52,7 @@ const Done = () => {
 				</GridItem>
 				<Grid item xs={12}>
 					<Grid container gap={2}>
-						{tasks.filter((t) => !t.archived && t.done).length >
-							0 &&
+						{tasks.length > 0 &&
 							tasks
 								.filter((t) => !t.archived && t.done)
 								.map((task) => (
