@@ -214,6 +214,10 @@ const MiniDrawer: React.FC<MiniDrawerProps> = ({ children, titlePage }) => {
 									sx={{
 										opacity: open ? 1 : 0,
 										color: '#fff',
+										transition: '0.3s',
+										':hover': {
+											color: '#b4b4b4',
+										},
 									}}
 								/>
 							</ListItemButton>
@@ -255,7 +259,11 @@ const MiniDrawer: React.FC<MiniDrawerProps> = ({ children, titlePage }) => {
 										primary={item.text}
 										sx={{
 											opacity: open ? 1 : 0,
-											color: '#fff',
+											color: '#cecece',
+											transition: '0.3s',
+											':hover': {
+												color: '#7c7c7c',
+											},
 										}}
 									/>
 								</ListItemButton>

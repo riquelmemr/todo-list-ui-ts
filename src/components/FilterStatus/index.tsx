@@ -1,12 +1,18 @@
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import React from 'react';
+
+interface FilterProps {
+	value: string;
+	setValue: React.Dispatch<React.SetStateAction<string>>;
+}
 
 const filterOptions = createFilterOptions({
 	matchFrom: 'start',
-	stringify: (option: FilterProps) => option.title,
+	stringify: (option: FilterType) => option.title,
 });
 
-export default function Filter() {
+const Filter: React.FC<FilterProps> = ({ setValue, value, ...other }) => {
 	return (
 		<Autocomplete
 			id="filter-demo"
@@ -14,23 +20,41 @@ export default function Filter() {
 			getOptionLabel={(option) => option.title}
 			filterOptions={filterOptions}
 			sx={{ width: 300 }}
-			renderInput={(params) => <TextField {...params} label="Filtros" />}
+			onChange={(e, value) => {
+				if (typeof value === 'string') {
+					setValue(value);
+				} else if (value && value.title) {
+					setValue(value.title);
+				} else {
+					setValue('');
+				}
+			}}
+			renderInput={(params) => (
+				<TextField
+					{...params}
+					label="Filtros"
+					value={value}
+					onChange={(e) => setValue(e.target.value)}
+				/>
+			)}
 		/>
 	);
-}
+};
 
-interface FilterProps {
+interface FilterType {
 	title: string;
-	value: boolean;
+	value: string;
 }
 
-const filters: FilterProps[] = [
+const filters: FilterType[] = [
 	{
-		title: 'Archived',
-		value: true,
+		title: 'Arquivadas',
+		value: 'archived',
 	},
 	{
-		title: 'Done',
-		value: true,
+		title: 'Finalizadas',
+		value: 'done',
 	},
 ];
+
+export default Filter;

@@ -76,6 +76,20 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 					<Typography variant="body2" color={'#bbb'}>
 						{task.description}
 					</Typography>
+					<Typography
+						variant="body2"
+						color={'#bbb'}
+						fontSize={'12px'}
+						mt={1}
+						sx={{
+							display: {
+								xs: 'block',
+								sm: 'none',
+							},
+						}}
+					>
+						{task.createdAt}
+					</Typography>
 				</CardContent>
 				<CardActions
 					sx={{
@@ -151,7 +165,17 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 							</Button>
 						</Box>
 					)}
-					<Typography variant="body2" component="div">
+					<Typography
+						variant="subtitle1"
+						component="div"
+						fontSize={'12px'}
+						sx={{
+							display: {
+								xs: 'none',
+								sm: 'block',
+							},
+						}}
+					>
 						{task.createdAt}
 					</Typography>
 					<Box component={'div'}>

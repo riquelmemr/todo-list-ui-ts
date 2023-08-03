@@ -16,6 +16,7 @@ import { findAllTasks, findTasks } from '../../store/modules/tasks/tasksSlice';
 const Home = () => {
 	const [open, setOpen] = useState(false);
 	const [search, setSearch] = useState('');
+	const [filter, setFilter] = useState('');
 
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
@@ -39,11 +40,38 @@ const Home = () => {
 	useEffect(() => {
 		dispatch(
 			findTasks({
-				archived: false,
+				archived: filter === 'Arquivadas',
+				done: filter === 'Finalizadas' ? true : undefined,
 				title: search,
 			}),
 		);
 	}, [search]);
+
+	useEffect(() => {
+		if (filter === 'Arquivadas') {
+			dispatch(
+				findTasks({
+					archived: true,
+				}),
+			);
+		}
+
+		if (filter === 'Finalizadas') {
+			dispatch(
+				findTasks({
+					done: true,
+				}),
+			);
+		}
+
+		if (filter === '') {
+			dispatch(
+				findTasks({
+					archived: false,
+				}),
+			);
+		}
+	}, [filter]);
 
 	return (
 		<MiniDrawer titlePage="Página Inicial">
@@ -57,26 +85,18 @@ const Home = () => {
 							/>
 						</GridItem>
 						<GridItem item xs={12}>
-							<Filter />
+							<Filter value={filter} setValue={setFilter} />
 						</GridItem>
 					</Grid>
 				</GridItem>
 				<Grid item xs={12}>
 					<Grid container spacing={2}>
-						{tasks.filter((t) => !t.archived).length > 0 &&
-							tasks
-								.filter((t) => !t.archived)
-								.map((task) => (
-									<Grid
-										key={task.id}
-										item
-										xs={12}
-										sm={6}
-										md={4}
-									>
-										<TaskCard task={task} />
-									</Grid>
-								))}
+						{tasks.length > 0 &&
+							tasks.map((task) => (
+								<Grid key={task.id} item xs={12} sm={6} md={4}>
+									<TaskCard task={task} />
+								</Grid>
+							))}
 
 						{loading && (
 							<GridItem item xs={12}>
@@ -84,14 +104,13 @@ const Home = () => {
 							</GridItem>
 						)}
 
-						{!loading &&
-							tasks.filter((t) => !t.archived).length === 0 && (
-								<Grid item xs={12}>
-									<Typography textAlign={'center'}>
-										Nenhuma tarefa encontrada ou cadastrada.
-									</Typography>
-								</Grid>
-							)}
+						{!loading && tasks.length === 0 && (
+							<Grid item xs={12}>
+								<Typography textAlign={'center'}>
+									Nenhuma tarefa encontrada ou cadastrada.
+								</Typography>
+							</Grid>
+						)}
 					</Grid>
 				</Grid>
 			</Grid>
