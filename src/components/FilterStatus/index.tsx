@@ -12,7 +12,7 @@ const filterOptions = createFilterOptions({
 	stringify: (option: FilterType) => option.title,
 });
 
-const Filter: React.FC<FilterProps> = ({ setValue, value, ...other }) => {
+const Filter: React.FC<FilterProps> = ({ setValue, value }) => {
 	return (
 		<Autocomplete
 			id="filter-demo"
