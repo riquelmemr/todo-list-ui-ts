@@ -139,7 +139,7 @@ const Modal: React.FC<ModalProps> = ({ task, context, open, setOpen }) => {
 								<Box
 									component={'label'}
 									sx={{
-										fontSize: '14px',
+										fontSize: '16px',
 										fontWeight: '500',
 										color: theme.palette.primary.light,
 									}}
@@ -155,7 +155,7 @@ const Modal: React.FC<ModalProps> = ({ task, context, open, setOpen }) => {
 										disableUnderline: true,
 										style: {
 											color: '#ffffff',
-											fontSize: '14px',
+											fontSize: '16px',
 										},
 									}}
 									sx={{
@@ -170,7 +170,7 @@ const Modal: React.FC<ModalProps> = ({ task, context, open, setOpen }) => {
 								<Box
 									component={'label'}
 									sx={{
-										fontSize: '14px',
+										fontSize: '16px',
 										fontWeight: '500',
 										color: theme.palette.primary.light,
 									}}
@@ -188,7 +188,7 @@ const Modal: React.FC<ModalProps> = ({ task, context, open, setOpen }) => {
 										disableUnderline: true,
 										style: {
 											color: '#fff',
-											fontSize: '14px',
+											fontSize: '16px',
 										},
 									}}
 									sx={{
@@ -207,11 +207,8 @@ const Modal: React.FC<ModalProps> = ({ task, context, open, setOpen }) => {
 						variant="contained"
 						onClick={() => setOpen(false)}
 						sx={{
-							bgcolor: theme.palette.primary.light,
-							color: '#000',
-							':hover': {
-								bgcolor: '#acacac',
-							},
+							bgcolor: '#c93f3f',
+							'&:hover': { bgcolor: '#921212' },
 						}}
 					>
 						{context === 'create' || context === 'update'
@@ -224,11 +221,8 @@ const Modal: React.FC<ModalProps> = ({ task, context, open, setOpen }) => {
 							handleSubmit();
 						}}
 						sx={{
-							bgcolor: theme.palette.primary.light,
-							color: '#000',
-							':hover': {
-								bgcolor: '#acacac',
-							},
+							bgcolor: '#228654',
+							'&:hover': { bgcolor: '#1b5c3b' },
 						}}
 					>
 						{context === 'create'

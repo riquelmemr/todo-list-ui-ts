@@ -84,7 +84,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 						sx={{
 							display: {
 								xs: 'block',
-								sm: 'none',
+								lg: 'none',
 							},
 						}}
 					>
@@ -122,6 +122,10 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 							<Button
 								size="small"
 								variant="contained"
+								sx={{
+									bgcolor: '#228654',
+									'&:hover': { bgcolor: '#1b5c3b' },
+								}}
 								onClick={() => {
 									setIsUpdate(true);
 									setIsDelete(false);
@@ -172,13 +176,13 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 						sx={{
 							display: {
 								xs: 'none',
-								sm: 'block',
+								lg: 'block',
 							},
 						}}
 					>
 						{task.createdAt}
 					</Typography>
-					<Box component={'div'}>
+					<Box component={'div'} sx={{ display: 'flex' }}>
 						{task.archived ? (
 							<IconButton
 								sx={{ color: '#fff' }}

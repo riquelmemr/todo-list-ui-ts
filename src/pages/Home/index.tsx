@@ -1,6 +1,6 @@
 import { Add } from '@mui/icons-material';
 import { CircularProgress, Fab, Grid, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import MiniDrawer from '../../components/Drawer';
@@ -23,6 +23,18 @@ const Home = () => {
 
 	const { loading } = useAppSelector((state) => state.tasks);
 	const tasks = useAppSelector(findAllTasks);
+
+	const tasksMemo = useMemo(() => {
+		if (filter === 'Arquivadas') {
+			return tasks.filter((t) => t.archived);
+		}
+
+		if (filter === 'Finalizadas') {
+			return tasks.filter((t) => t.done);
+		}
+
+		return tasks.filter((t) => !t.archived);
+	}, [filter, tasks]);
 
 	useEffect(() => {
 		const auth = sessionStorage.getItem('auth');
@@ -91,9 +103,16 @@ const Home = () => {
 				</GridItem>
 				<Grid item xs={12}>
 					<Grid container spacing={2}>
-						{tasks.length > 0 &&
-							tasks.map((task) => (
-								<Grid key={task.id} item xs={12} sm={6} md={4}>
+						{tasksMemo.length > 0 &&
+							tasksMemo.map((task) => (
+								<Grid
+									key={task.id}
+									item
+									xs={12}
+									sm={6}
+									md={4}
+									lg={3}
+								>
 									<TaskCard task={task} />
 								</Grid>
 							))}
@@ -104,7 +123,7 @@ const Home = () => {
 							</GridItem>
 						)}
 
-						{!loading && tasks.length === 0 && (
+						{!loading && tasksMemo.length === 0 && (
 							<Grid item xs={12}>
 								<Typography textAlign={'center'}>
 									Nenhuma tarefa encontrada ou cadastrada.

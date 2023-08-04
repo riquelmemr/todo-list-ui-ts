@@ -1,5 +1,5 @@
 import { Grid, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import MiniDrawer from '../../components/Drawer';
@@ -19,6 +19,10 @@ const Archived = () => {
 	const dispatch = useAppDispatch();
 
 	const tasks = useAppSelector(findAllTasks);
+
+	const tasksMemo = useMemo(() => {
+		return tasks.filter((t) => t.archived);
+	}, [tasks]);
 
 	useEffect(() => {
 		const auth = sessionStorage.getItem('auth');
@@ -51,14 +55,14 @@ const Archived = () => {
 				</GridItem>
 				<Grid item xs={12}>
 					<Grid container gap={2}>
-						{tasks.filter((t) => t.archived).length > 0 &&
-							tasks.map((task) => (
+						{tasksMemo.length > 0 &&
+							tasksMemo.map((task) => (
 								<Grid key={task.id} item xs={12} sm={6} md={4}>
 									<TaskCard task={task} />
 								</Grid>
 							))}
 
-						{tasks.filter((t) => t.archived).length === 0 && (
+						{tasksMemo.length === 0 && (
 							<Grid item xs={12}>
 								<Typography textAlign={'center'}>
 									Nenhuma tarefa arquivada encontrada.
