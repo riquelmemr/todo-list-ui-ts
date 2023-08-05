@@ -1,17 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-	createAsyncThunk,
-	createEntityAdapter,
-	createSlice,
-} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { api } from '../../../configs/services/api';
 import { User, UserLogged } from '../../../types/user';
 import { showNotification } from '../notifications/notificationsSlice';
-
-const usersAdapter = createEntityAdapter<User>({
-	selectId: (state) => state.email,
-});
 
 export const createUser = createAsyncThunk(
 	'users/createUser',
@@ -75,10 +67,13 @@ export const loginUser = createAsyncThunk(
 );
 
 const usersSlice = createSlice({
-	initialState: usersAdapter.getInitialState({
+	initialState: {
+		id: '',
+		name: '',
+		email: '',
 		loading: false,
 		status: '',
-	}),
+	},
 	name: 'users',
 	extraReducers: (builder) => {
 		builder.addCase(createUser.fulfilled, (state, action) => {
@@ -98,9 +93,10 @@ const usersSlice = createSlice({
 			state.loading = false;
 			state.status = action.payload.status;
 
-			console.log('status', state.status);
-
 			if (action.payload.success) {
+				state.id = action.payload.body.id;
+				state.email = action.payload.body.email;
+				state.name = action.payload.body.name;
 				sessionStorage.setItem('auth', action.payload.body.id);
 				return;
 			}
