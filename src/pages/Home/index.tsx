@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import MiniDrawer from '../../components/Drawer';
 import Filter from '../../components/FilterStatus';
+import LabelTasks from '../../components/LabelTasks';
 import Modal from '../../components/Modal';
 import { NotificationComponent } from '../../components/Notification';
 import SearchComponent from '../../components/Search';
@@ -33,57 +34,36 @@ const Home = () => {
 			return tasks.filter((t) => t.done);
 		}
 
-		return tasks.filter((t) => !t.archived);
+		return tasks.reverse().filter((t) => !t.archived);
 	}, [filter, tasks]);
 
 	useEffect(() => {
 		const auth = sessionStorage.getItem('auth');
+
 		if (!auth) {
 			navigate('/');
 		}
-
-		dispatch(
-			findTasks({
-				archived: false,
-			}),
-		);
 	}, []);
 
 	useEffect(() => {
-		dispatch(
-			findTasks({
-				archived: filter === 'Arquivadas',
-				done: filter === 'Finalizadas' ? true : undefined,
-				title: search,
-			}),
-		);
-	}, [search]);
+		let filterOptions: any = {};
 
-	useEffect(() => {
 		if (filter === 'Arquivadas') {
-			dispatch(
-				findTasks({
-					archived: true,
-				}),
-			);
+			filterOptions = { archived: true };
+		} else if (filter === 'Finalizadas') {
+			filterOptions = { done: true };
 		}
 
-		if (filter === 'Finalizadas') {
-			dispatch(
-				findTasks({
-					done: true,
-				}),
-			);
+		if (search !== '') {
+			filterOptions.title = search;
 		}
 
-		if (filter === '') {
-			dispatch(
-				findTasks({
-					archived: false,
-				}),
-			);
+		if (Object.keys(filterOptions).length === 0) {
+			filterOptions.archived = false;
 		}
-	}, [filter]);
+
+		dispatch(findTasks(filterOptions));
+	}, [filter, search]);
 
 	return (
 		<MiniDrawer titlePage="Página Inicial">
@@ -103,15 +83,17 @@ const Home = () => {
 				</GridItem>
 				<Grid item xs={12}>
 					<Grid container spacing={2}>
+						{tasksMemo.length > 0 && <LabelTasks />}
+
 						{tasksMemo.length > 0 &&
-							tasksMemo.map((task) => (
+							tasksMemo.reverse().map((task) => (
 								<Grid
 									key={task.id}
 									item
 									xs={12}
 									sm={6}
 									md={4}
-									lg={3}
+									lg={4}
 								>
 									<TaskCard task={task} />
 								</Grid>

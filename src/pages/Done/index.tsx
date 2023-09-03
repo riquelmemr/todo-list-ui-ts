@@ -20,7 +20,7 @@ const Done = () => {
 	const tasks = useAppSelector(findAllTasks);
 
 	const tasksMemo = useMemo(() => {
-		return tasks.filter((t) => !t.archived && t.done);
+		return tasks.reverse().filter((t) => !t.archived && t.done);
 	}, [tasks]);
 
 	useEffect(() => {
@@ -29,23 +29,19 @@ const Done = () => {
 		if (!auth) {
 			navigate('/');
 		}
-
-		dispatch(
-			findTasks({
-				archived: false,
-				done: true,
-			}),
-		);
 	}, []);
 
 	useEffect(() => {
-		dispatch(
-			findTasks({
-				archived: false,
-				done: true,
-				title: search,
-			}),
-		);
+		const filterOptions: any = {
+			done: true,
+			archived: false,
+		};
+
+		if (search !== '') {
+			filterOptions.title = search;
+		}
+
+		dispatch(findTasks(filterOptions));
 	}, [search]);
 
 	return (

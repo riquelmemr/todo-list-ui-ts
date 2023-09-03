@@ -21,7 +21,7 @@ const Archived = () => {
 	const tasks = useAppSelector(findAllTasks);
 
 	const tasksMemo = useMemo(() => {
-		return tasks.filter((t) => t.archived);
+		return tasks.reverse().filter((t) => t.archived);
 	}, [tasks]);
 
 	useEffect(() => {
@@ -30,21 +30,18 @@ const Archived = () => {
 		if (!auth) {
 			navigate('/');
 		}
-
-		dispatch(
-			findTasks({
-				archived: true,
-			}),
-		);
 	}, []);
 
 	useEffect(() => {
-		dispatch(
-			findTasks({
-				archived: true,
-				title: search,
-			}),
-		);
+		const filterOptions: any = {
+			archived: true,
+		};
+
+		if (search !== '') {
+			filterOptions.title = search;
+		}
+
+		dispatch(findTasks(filterOptions));
 	}, [search]);
 
 	return (

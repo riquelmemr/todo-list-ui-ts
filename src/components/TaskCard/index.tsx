@@ -56,8 +56,8 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 					backgroundColor: task.done
 						? '#131313'
 						: task.archived
-						? '#5c5c5c'
-						: '#3b3b3b',
+						? '#868686'
+						: '#4e4e4e',
 					color: theme.palette.secondary.contrastText,
 					borderRadius: '8px',
 				}}
@@ -88,7 +88,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 							},
 						}}
 					>
-						{task.createdAt}
+						{task.createdAt.slice(0, 10).replace(/-/g, '/')}
 					</Typography>
 				</CardContent>
 				<CardActions
@@ -180,7 +180,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 							},
 						}}
 					>
-						{task.createdAt}
+						{task.createdAt.slice(0, 10).replace(/-/g, '/')}
 					</Typography>
 					<Box component={'div'} sx={{ display: 'flex' }}>
 						{task.archived ? (
