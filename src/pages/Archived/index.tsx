@@ -21,7 +21,7 @@ const Archived = () => {
 	const tasks = useAppSelector(findAllTasks);
 
 	const tasksMemo = useMemo(() => {
-		return tasks.reverse().filter((t) => t.archived);
+		return tasks.filter((t) => t.archived);
 	}, [tasks]);
 
 	useEffect(() => {

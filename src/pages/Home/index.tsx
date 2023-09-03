@@ -34,7 +34,7 @@ const Home = () => {
 			return tasks.filter((t) => t.done);
 		}
 
-		return tasks.reverse().filter((t) => !t.archived);
+		return tasks.filter((t) => !t.archived);
 	}, [filter, tasks]);
 
 	useEffect(() => {
@@ -86,7 +86,7 @@ const Home = () => {
 						{tasksMemo.length > 0 && <LabelTasks />}
 
 						{tasksMemo.length > 0 &&
-							tasksMemo.reverse().map((task) => (
+							tasksMemo.map((task) => (
 								<Grid
 									key={task.id}
 									item
