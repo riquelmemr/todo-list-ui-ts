@@ -110,7 +110,7 @@ const Modal: React.FC<ModalProps> = ({ task, context, open, setOpen }) => {
 				sx={{
 					'& .MuiPaper-root': {
 						borderRadius: '12px',
-						backgroundColor: theme.palette.primary.main,
+						backgroundColor: '#1b1b1b',
 					},
 				}}
 			>

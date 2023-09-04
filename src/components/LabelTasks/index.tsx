@@ -2,12 +2,8 @@ import { Box, Grid, Typography } from '@mui/material';
 
 const label = [
 	{
-		name: 'Concluídas',
-		color: '#000',
-	},
-	{
 		name: 'Pendentes',
-		color: '#4e4e4e',
+		color: '#292929',
 	},
 	{
 		name: 'Arquivadas',
@@ -17,7 +13,12 @@ const label = [
 
 const LabelTasks = () => {
 	return (
-		<Grid item xs={12} display={'flex'}>
+		<Grid
+			item
+			xs={12}
+			display={'flex'}
+			sx={{ justifyContent: { xs: 'center', md: 'flex-start' } }}
+		>
 			{label.map((item) => (
 				<>
 					<Box

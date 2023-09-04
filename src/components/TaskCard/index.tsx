@@ -52,14 +52,21 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 		<ThemeProvider theme={theme}>
 			<Card
 				sx={{
+					position: 'relative',
 					width: '100%',
-					backgroundColor: task.done
-						? '#131313'
-						: task.archived
-						? '#868686'
-						: '#4e4e4e',
+					backgroundColor: task.archived ? '#868686' : '#292929',
 					color: theme.palette.secondary.contrastText,
 					borderRadius: '8px',
+					boxShadow: '5px 5px 10px rgba(26, 26, 26, 0.25)',
+					transition: '0.5s',
+					filter: task.done ? 'brightness(50%)' : 'brightness(100%)',
+					zIndex: 1,
+
+					':hover': {
+						cursor: 'pointer',
+						boxShadow: '5px 5px 20px rgba(26, 26, 26, 5)',
+						filter: 'brightness(100%)',
+					},
 				}}
 			>
 				<CardContent>

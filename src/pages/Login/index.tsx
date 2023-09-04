@@ -61,6 +61,10 @@ const Login: React.FC = () => {
 		if (auth && status === 'Usuário logado com sucesso!') {
 			navigate('/home');
 		}
+
+		if (auth) {
+			navigate('/home');
+		}
 	}, [navigate, status]);
 
 	return (
