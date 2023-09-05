@@ -137,9 +137,11 @@ const tasksSlice = createSlice({
 		builder.addCase(createTask.fulfilled, (state, action) => {
 			state.loading = false;
 			state.status = action.payload.status;
+			const newTask = action.payload.body;
 
 			if (action.payload.success) {
-				tasksAdapter.addOne(state, action.payload.body);
+				state.ids = [newTask.id, ...state.ids];
+				state.entities[newTask.id] = newTask;
 			}
 		});
 		builder.addCase(createTask.pending, (state) => {

@@ -46,20 +46,18 @@ const Home = () => {
 	}, []);
 
 	useEffect(() => {
-		let filterOptions: any = {};
+		const filterOptions: any = {
+			archived: false,
+		};
 
 		if (filter === 'Arquivadas') {
-			filterOptions = { archived: true };
+			filterOptions.archived = true;
 		} else if (filter === 'Finalizadas') {
-			filterOptions = { done: true };
+			filterOptions.done = true;
 		}
 
 		if (search !== '') {
 			filterOptions.title = search;
-		}
-
-		if (Object.keys(filterOptions).length === 0) {
-			filterOptions.archived = false;
 		}
 
 		dispatch(findTasks(filterOptions));
