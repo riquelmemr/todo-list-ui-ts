@@ -13,6 +13,7 @@ import TaskCard from '../../components/TaskCard';
 import { GridItem } from '../../components/Wrappers/GridItem';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { findAllTasks, findTasks } from '../../store/modules/tasks/tasksSlice';
+import { FilterOptions } from '../../types/filterOptions';
 
 const Home = () => {
 	const [open, setOpen] = useState(false);
@@ -46,7 +47,7 @@ const Home = () => {
 	}, []);
 
 	useEffect(() => {
-		const filterOptions: any = {
+		const filterOptions: FilterOptions = {
 			archived: false,
 		};
 
