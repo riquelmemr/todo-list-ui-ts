@@ -51,7 +51,7 @@ const Done = () => {
 					<SearchComponent search={search} setSearch={setSearch} />
 				</GridItem>
 				<Grid item xs={12}>
-					<Grid container gap={2}>
+					<Grid container spacing={2}>
 						{tasksMemo.length > 0 &&
 							tasksMemo.map((task) => (
 								<Grid key={task.id} item xs={12} sm={6} md={4}>
