@@ -10,6 +10,7 @@ import {
 import React, { useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { showNotification } from '../../store/modules/notifications/notificationsSlice';
 import { updateTask } from '../../store/modules/tasks/tasksSlice';
 import { Task } from '../../types/task';
 import Modal from '../Modal';
@@ -33,10 +34,26 @@ const DetailsTask: React.FC<DetailsTaskProps> = ({ task }) => {
 
 	const handleSave = () => {
 		if (!title || !description) {
+			dispatch(
+				showNotification({
+					success: false,
+					status: 'O título e a descrição precisam ser preenchidos.',
+				}),
+			);
 			return;
 		}
 
-		if (title === task.title && description === task.description) {
+		if (
+			title === task.title &&
+			description === task.description &&
+			finishedDate === task.finishedDate?.slice(0, 10)
+		) {
+			dispatch(
+				showNotification({
+					success: false,
+					status: 'É necessário realizar alterações para salvar.',
+				}),
+			);
 			return;
 		}
 

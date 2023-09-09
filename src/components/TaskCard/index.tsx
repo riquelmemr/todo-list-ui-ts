@@ -119,7 +119,12 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 							},
 						}}
 					>
-						{task.createdAt.slice(0, 10).replace(/-/g, '/')}
+						{task.createdAt
+							.slice(0, 10)
+							.replace(/-/g, '/')
+							.split('/')
+							.reverse()
+							.join('/')}
 					</Typography>
 				</CardContent>
 				<CardActions
@@ -219,7 +224,12 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 							},
 						}}
 					>
-						{task.createdAt.slice(0, 10).replace(/-/g, '/')}
+						{task.createdAt
+							.slice(0, 10)
+							.replace(/-/g, '/')
+							.split('/')
+							.reverse()
+							.join('/')}
 					</Typography>
 					<Box component={'div'} sx={{ display: 'flex' }}>
 						{task.archived ? (
