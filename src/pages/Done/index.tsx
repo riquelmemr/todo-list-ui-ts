@@ -19,6 +19,7 @@ const Done = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const tasks = useAppSelector(findAllTasks);
+	const { loading } = useAppSelector((state) => state.tasks);
 
 	const tasksMemo = useMemo(() => {
 		return tasks.filter((t) => !t.archived && t.done);
@@ -60,7 +61,7 @@ const Done = () => {
 								</Grid>
 							))}
 
-						{tasksMemo.length === 0 && (
+						{!loading && tasksMemo.length === 0 && (
 							<Grid item xs={12}>
 								<Typography textAlign={'center'}>
 									Nenhuma tarefa finalizada encontrada.

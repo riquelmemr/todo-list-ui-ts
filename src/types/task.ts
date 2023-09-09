@@ -5,6 +5,7 @@ export interface Task {
 	done: boolean;
 	archived: boolean;
 	createdAt: string;
+	finishedDate?: string;
 }
 
 export type CreateTask = Omit<Task, 'id' | 'done' | 'archived' | 'createdAt'>;

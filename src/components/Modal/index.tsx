@@ -23,13 +23,23 @@ interface ModalProps {
 	context: 'create' | 'update' | 'delete' | 'restore' | 'archive';
 	open: boolean;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	linkAfterAction?: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ task, context, open, setOpen }) => {
+const Modal: React.FC<ModalProps> = ({
+	task,
+	context,
+	open,
+	setOpen,
+	linkAfterAction,
+}) => {
 	const [openSnackBar, setOpenSnackBar] = useState(false);
 	const [message, setMessage] = useState('');
 	const [title, setTitle] = useState(task?.title || '');
 	const [description, setDescription] = useState(task?.description || '');
+	const [finishedDate, setFinishedDate] = useState(
+		task?.finishedDate?.slice(0, 10) || '',
+	);
 
 	const dispatch = useAppDispatch();
 
@@ -46,6 +56,7 @@ const Modal: React.FC<ModalProps> = ({ task, context, open, setOpen }) => {
 					createTask({
 						title,
 						description,
+						finishedDate,
 					}),
 				);
 				break;
@@ -63,6 +74,7 @@ const Modal: React.FC<ModalProps> = ({ task, context, open, setOpen }) => {
 							id: task.id,
 							title: title,
 							description: description,
+							finishedDate: finishedDate,
 						}),
 					);
 				}
@@ -74,18 +86,13 @@ const Modal: React.FC<ModalProps> = ({ task, context, open, setOpen }) => {
 					dispatch(deleteTask(task.id));
 				}
 
-				break;
-
-			case 'restore':
-				if (task) {
-					dispatch(
-						updateTask({ id: task.id, archived: !task.archived }),
-					);
+				if (linkAfterAction) {
+					window.location.href = linkAfterAction;
 				}
 
 				break;
 
-			case 'archive':
+			case 'restore':
 				if (task) {
 					dispatch(
 						updateTask({ id: task.id, archived: !task.archived }),
@@ -109,7 +116,7 @@ const Modal: React.FC<ModalProps> = ({ task, context, open, setOpen }) => {
 				aria-describedby="alert-dialog-description"
 				sx={{
 					'& .MuiPaper-root': {
-						borderRadius: '12px',
+						borderRadius: '8px',
 						backgroundColor: '#1b1b1b',
 					},
 				}}
@@ -179,16 +186,52 @@ const Modal: React.FC<ModalProps> = ({ task, context, open, setOpen }) => {
 								</Box>
 								<TextField
 									fullWidth
+									id="filled-multiline-flexible"
 									variant="standard"
+									multiline
+									maxRows={20}
 									value={description}
-									onChange={(e) =>
-										setDescription(e.target.value)
-									}
+									onChange={(
+										e: React.ChangeEvent<HTMLTextAreaElement>,
+									) => setDescription(e.target.value)}
 									InputProps={{
 										disableUnderline: true,
 										style: {
 											color: '#fff',
 											fontSize: '16px',
+										},
+									}}
+									sx={{
+										padding: '12px',
+										border: 'none',
+										borderRadius: '6px',
+										backgroundColor: '#43474a',
+									}}
+								/>
+							</Grid>
+							<Grid item xs={12}>
+								<Box
+									component={'label'}
+									sx={{
+										fontSize: '16px',
+										fontWeight: '500',
+										color: theme.palette.primary.light,
+									}}
+								>
+									Data de Conclusão
+								</Box>
+								<TextField
+									fullWidth
+									type="date"
+									id="filled-multiline-flexible"
+									variant="standard"
+									value={finishedDate}
+									onChange={(e) =>
+										setFinishedDate(e.target.value)
+									}
+									InputProps={{
+										sx: {
+											color: '#fff',
 										},
 									}}
 									sx={{

@@ -12,6 +12,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { theme } from '../../configs/theme';
 import { useAppDispatch } from '../../store/hooks';
@@ -29,6 +30,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 	const [isDelete, setIsDelete] = useState(false);
 
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 
 	const handleArchived = () => {
 		dispatch(
@@ -51,12 +53,14 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 	return (
 		<ThemeProvider theme={theme}>
 			<Card
+				onClick={() => navigate(`/task/${task.id}`)}
 				sx={{
 					position: 'relative',
 					width: '100%',
-					backgroundColor: task.archived ? '#868686' : '#292929',
+
+					backgroundColor: task.archived ? '#5e5e5e' : '#292929',
 					color: theme.palette.secondary.contrastText,
-					borderRadius: '8px',
+					borderRadius: '6px',
 					boxShadow: '5px 5px 10px rgba(26, 26, 26, 0.25)',
 					transition: '0.5s',
 					filter: task.done ? 'brightness(50%)' : 'brightness(100%)',
@@ -75,12 +79,32 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 						justifyContent={'space-between'}
 						alignItems={'center'}
 					>
-						<Typography gutterBottom variant="h6" component="h3">
+						<Typography
+							gutterBottom
+							variant="h6"
+							component="h3"
+							sx={{
+								whiteSpace: 'nowrap',
+								overflow: 'hidden',
+								textOverflow: 'ellipsis',
+							}}
+						>
 							{task.title}
 						</Typography>
 					</Box>
 
-					<Typography variant="body2" color={'#bbb'}>
+					<Typography
+						variant="body2"
+						component={'h3'}
+						color={'#bbb'}
+						sx={{
+							display: 'block',
+							textDecoration: task.done ? 'line-through' : 'none',
+							whiteSpace: 'nowrap',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+						}}
+					>
 						{task.description}
 					</Typography>
 					<Typography
@@ -113,8 +137,10 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 								sx={{
 									bgcolor: '#c93f3f',
 									'&:hover': { bgcolor: '#921212' },
+									zIndex: 2,
 								}}
-								onClick={() => {
+								onClick={(e) => {
+									e.stopPropagation();
 									setOpen(true);
 									setIsDelete(true);
 									setIsUpdate(false);
@@ -132,8 +158,10 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 								sx={{
 									bgcolor: '#228654',
 									'&:hover': { bgcolor: '#1b5c3b' },
+									zIndex: 2,
 								}}
-								onClick={() => {
+								onClick={(e) => {
+									e.stopPropagation();
 									setIsUpdate(true);
 									setIsDelete(false);
 									setOpen(true);
@@ -147,8 +175,10 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 								sx={{
 									bgcolor: '#c93f3f',
 									'&:hover': { bgcolor: '#921212' },
+									zIndex: 2,
 								}}
-								onClick={() => {
+								onClick={(e) => {
+									e.stopPropagation();
 									setOpen(true);
 									setIsDelete(true);
 									setIsUpdate(false);
@@ -166,8 +196,10 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 								sx={{
 									bgcolor: '#c93f3f',
 									'&:hover': { bgcolor: '#921212' },
+									zIndex: 2,
 								}}
-								onClick={() => {
+								onClick={(e) => {
+									e.stopPropagation();
 									setOpen(true);
 									setIsDelete(true);
 								}}
@@ -193,7 +225,8 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 						{task.archived ? (
 							<IconButton
 								sx={{ color: '#fff' }}
-								onClick={() => {
+								onClick={(e) => {
+									e.stopPropagation();
 									handleArchived();
 								}}
 							>
@@ -202,7 +235,10 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 						) : (
 							<IconButton
 								sx={{ color: '#fff' }}
-								onClick={() => handleArchived()}
+								onClick={(e) => {
+									e.stopPropagation();
+									handleArchived();
+								}}
 							>
 								<ArchiveOutlined />
 							</IconButton>
@@ -210,7 +246,8 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 						{!task.archived && (
 							<IconButton
 								sx={{ color: '#fff' }}
-								onClick={() => {
+								onClick={(e) => {
+									e.stopPropagation();
 									handleDone();
 								}}
 							>

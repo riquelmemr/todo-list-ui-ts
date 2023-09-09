@@ -6,6 +6,7 @@ import Done from '../../pages/Done';
 import Home from '../../pages/Home';
 import Login from '../../pages/Login';
 import Register from '../../pages/Register';
+import Task from '../../pages/Task';
 
 const AppRoutes: React.FC = () => {
 	return (
@@ -16,6 +17,7 @@ const AppRoutes: React.FC = () => {
 				<Route path="/archiveds" element={<Archived />} />
 				<Route path="/home" element={<Home />} />
 				<Route path="/dones" element={<Done />} />
+				<Route path="/task/:id" element={<Task />} />
 			</Routes>
 		</BrowserRouter>
 	);

@@ -23,6 +23,7 @@ export const createTask = createAsyncThunk(
 			const response = await api.post(`/task/${userId}/create`, {
 				title: task.title,
 				description: task.description,
+				finishedDate: task.finishedDate || '',
 			});
 
 			dispatch(
@@ -126,10 +127,32 @@ export const findTasks = createAsyncThunk(
 	},
 );
 
+export const getTask = createAsyncThunk(
+	'tasks/getTask',
+	async (id: string, { dispatch }) => {
+		try {
+			const userId = sessionStorage.getItem('auth');
+
+			const response = await api.get(`/task/${userId}/${id}`);
+
+			return response.data;
+		} catch (error: any) {
+			dispatch(
+				showNotification({
+					success: false,
+					status: error.response.data.error,
+				}),
+			);
+			return error.response.data;
+		}
+	},
+);
+
 const tasksSlice = createSlice({
 	initialState: tasksAdapter.getInitialState({
-		loading: false,
+		loading: true,
 		status: '',
+		taskSelected: {} as Task,
 	}),
 	name: 'tasks',
 	extraReducers: (builder) => {
@@ -161,6 +184,7 @@ const tasksSlice = createSlice({
 				tasksAdapter.removeOne(state, action.payload.body.id);
 			}
 
+			state.taskSelected = {} as Task;
 			state.status = action.payload.status;
 		});
 		builder.addCase(deleteTask.pending, (state) => {
@@ -209,7 +233,27 @@ const tasksSlice = createSlice({
 					id: action.payload.body.id,
 					changes: action.payload.body,
 				});
+
+				state.taskSelected = action.payload.body;
 			}
+		});
+
+		builder.addCase(getTask.fulfilled, (state, action) => {
+			state.loading = false;
+			state.status = action.payload.status;
+
+			if (action.payload.success) {
+				state.taskSelected = action.payload.body;
+			}
+		});
+		builder.addCase(getTask.pending, (state) => {
+			state.loading = true;
+			state.status = 'Aguarde enquanto verificamos seu dados...';
+			state.taskSelected = {} as Task;
+		});
+		builder.addCase(getTask.rejected, (state) => {
+			state.loading = false;
+			state.status = 'Algo deu errado. Chame o suporte!';
 		});
 	},
 	reducers: {},

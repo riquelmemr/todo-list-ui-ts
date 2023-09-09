@@ -10,7 +10,6 @@ import {
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
 import MuiDrawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
@@ -93,7 +92,7 @@ const Drawer = styled(MuiDrawer, {
 		'& .MuiDrawer-paper': closedMixin(theme),
 	}),
 	'.MuiPaper-elevation': {
-		backgroundColor: theme.palette.primary.main,
+		backgroundColor: '#202020',
 	},
 }));
 
@@ -154,7 +153,7 @@ const MiniDrawer: React.FC<MiniDrawerProps> = ({ children, titlePage }) => {
 			<AppBar
 				position="fixed"
 				open={open}
-				sx={{ backgroundColor: theme.palette.primary.main }}
+				sx={{ backgroundColor: '#202020' }}
 			>
 				<Toolbar>
 					<IconButton
@@ -184,7 +183,6 @@ const MiniDrawer: React.FC<MiniDrawerProps> = ({ children, titlePage }) => {
 						)}
 					</IconButton>
 				</DrawerHeader>
-				<Divider />
 				<List>
 					{navItems.map((item) => (
 						<ListItem
@@ -224,7 +222,6 @@ const MiniDrawer: React.FC<MiniDrawerProps> = ({ children, titlePage }) => {
 						</ListItem>
 					))}
 				</List>
-				<Divider />
 				<List>
 					{[
 						secondNavItems.map((item) => (
@@ -278,7 +275,8 @@ const MiniDrawer: React.FC<MiniDrawerProps> = ({ children, titlePage }) => {
 					flexGrow: 1,
 					p: 3,
 					backgroundColor: theme.palette.secondary.light,
-					height: '100vh',
+					minHeight: '100vh',
+					overflow: 'auto',
 				}}
 			>
 				<DrawerHeader />

@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 import MiniDrawer from '../../components/Drawer';
 import Filter from '../../components/FilterStatus';
-import LabelTasks from '../../components/LabelTasks';
 import Modal from '../../components/Modal';
 import { NotificationComponent } from '../../components/Notification';
 import SearchComponent from '../../components/Search';
@@ -35,7 +34,7 @@ const Home = () => {
 			return tasks.filter((t) => t.done);
 		}
 
-		return tasks.filter((t) => !t.archived);
+		return tasks.filter((t) => !t.archived && !t.done);
 	}, [filter, tasks]);
 
 	useEffect(() => {
@@ -49,6 +48,7 @@ const Home = () => {
 	useEffect(() => {
 		const filterOptions: FilterOptions = {
 			archived: false,
+			done: false,
 		};
 
 		if (filter === 'Arquivadas') {
@@ -82,8 +82,6 @@ const Home = () => {
 				</GridItem>
 				<Grid item xs={12}>
 					<Grid container spacing={2}>
-						{tasksMemo.length > 0 && <LabelTasks />}
-
 						{tasksMemo.length > 0 &&
 							tasksMemo.map((task) => (
 								<Grid
@@ -117,7 +115,12 @@ const Home = () => {
 			<Fab
 				color="primary"
 				aria-label="add"
-				sx={{ position: 'fixed', bottom: '30px', right: '30px' }}
+				sx={{
+					position: 'fixed',
+					bottom: '30px',
+					right: '30px',
+					bgcolor: '#3b3b3b',
+				}}
 			>
 				<Add onClick={() => setOpen(true)} />
 			</Fab>

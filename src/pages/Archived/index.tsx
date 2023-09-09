@@ -20,6 +20,7 @@ const Archived = () => {
 	const dispatch = useAppDispatch();
 
 	const tasks = useAppSelector(findAllTasks);
+	const { loading } = useAppSelector((state) => state.tasks);
 
 	const tasksMemo = useMemo(() => {
 		return tasks.filter((t) => t.archived);
@@ -67,7 +68,7 @@ const Archived = () => {
 								</Grid>
 							))}
 
-						{tasksMemo.length === 0 && (
+						{!loading && tasksMemo.length === 0 && (
 							<Grid item xs={12}>
 								<Typography textAlign={'center'}>
 									Nenhuma tarefa arquivada encontrada.
