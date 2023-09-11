@@ -198,7 +198,7 @@ const tasksSlice = createSlice({
 
 		// Busca das tarefas
 		builder.addCase(findTasks.pending, (state) => {
-			state.loading = false;
+			state.loading = true;
 			state.status = 'Aguarde enquanto verificamos seu dados...';
 		});
 		builder.addCase(findTasks.fulfilled, (state, action) => {
