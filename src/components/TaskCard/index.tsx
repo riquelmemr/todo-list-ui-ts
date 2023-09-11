@@ -15,6 +15,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { theme } from '../../configs/theme';
+import { formatDate } from '../../helpers/format-date';
 import { useAppDispatch } from '../../store/hooks';
 import { updateTask } from '../../store/modules/tasks/tasksSlice';
 import { Task } from '../../types/task';
@@ -119,12 +120,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 							},
 						}}
 					>
-						{task.createdAt
-							.slice(0, 10)
-							.replace(/-/g, '/')
-							.split('/')
-							.reverse()
-							.join('/')}
+						{formatDate(task.createdAt)}
 					</Typography>
 				</CardContent>
 				<CardActions
@@ -224,12 +220,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 							},
 						}}
 					>
-						{task.createdAt
-							.slice(0, 10)
-							.replace(/-/g, '/')
-							.split('/')
-							.reverse()
-							.join('/')}
+						{formatDate(task.createdAt)}
 					</Typography>
 					<Box component={'div'} sx={{ display: 'flex' }}>
 						{task.archived ? (

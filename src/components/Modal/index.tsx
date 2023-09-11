@@ -23,16 +23,9 @@ interface ModalProps {
 	context: 'create' | 'update' | 'delete' | 'restore' | 'archive';
 	open: boolean;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-	linkAfterAction?: string;
 }
 
-const Modal: React.FC<ModalProps> = ({
-	task,
-	context,
-	open,
-	setOpen,
-	linkAfterAction,
-}) => {
+const Modal: React.FC<ModalProps> = ({ task, context, open, setOpen }) => {
 	const [openSnackBar, setOpenSnackBar] = useState(false);
 	const [message, setMessage] = useState('');
 	const [title, setTitle] = useState(task?.title || '');
@@ -84,10 +77,6 @@ const Modal: React.FC<ModalProps> = ({
 			case 'delete':
 				if (task) {
 					dispatch(deleteTask(task.id));
-				}
-
-				if (linkAfterAction) {
-					window.location.href = linkAfterAction;
 				}
 
 				break;

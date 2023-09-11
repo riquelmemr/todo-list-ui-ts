@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 
+import { formatDate } from '../../helpers/format-date';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { showNotification } from '../../store/modules/notifications/notificationsSlice';
 import { updateTask } from '../../store/modules/tasks/tasksSlice';
@@ -159,13 +160,7 @@ const DetailsTask: React.FC<DetailsTaskProps> = ({ task }) => {
 							Data de Criação
 						</Typography>
 						<Typography>
-							{task.createdAt &&
-								task.createdAt
-									.slice(0, 10)
-									.replace(/-/g, '/')
-									.split('/')
-									.reverse()
-									.join('/')}
+							{task.createdAt && formatDate(task.createdAt)}
 						</Typography>
 					</Box>
 
@@ -272,7 +267,6 @@ const DetailsTask: React.FC<DetailsTaskProps> = ({ task }) => {
 				open={open}
 				setOpen={setOpen}
 				task={task}
-				linkAfterAction="/home"
 			/>
 			<NotificationComponent />
 		</>
