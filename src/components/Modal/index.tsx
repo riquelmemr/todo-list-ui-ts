@@ -94,6 +94,7 @@ const Modal: React.FC<ModalProps> = ({ task, context, open, setOpen }) => {
 		setOpen(false);
 		setTitle('');
 		setDescription('');
+		setFinishedDate('');
 	};
 
 	return (
