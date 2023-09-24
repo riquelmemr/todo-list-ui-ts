@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@mui/material';
+import { CircularProgress, Grid, Typography } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -67,6 +67,12 @@ const Archived = () => {
 									<TaskCard task={task} />
 								</Grid>
 							))}
+
+						{loading && (
+							<GridItem item xs={12}>
+								<CircularProgress color="primary" size={25} />
+							</GridItem>
+						)}
 
 						{!loading && tasksMemo.length === 0 && (
 							<Grid item xs={12}>

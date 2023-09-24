@@ -31,7 +31,7 @@ const Home = () => {
 		}
 
 		if (filter === 'Finalizadas') {
-			return tasks.filter((t) => t.done);
+			return tasks.filter((t) => t.done && !t.archived);
 		}
 
 		return tasks.filter((t) => !t.archived && !t.done);
@@ -53,6 +53,7 @@ const Home = () => {
 
 		if (filter === 'Arquivadas') {
 			filterOptions.archived = true;
+			filterOptions.done = undefined;
 		} else if (filter === 'Finalizadas') {
 			filterOptions.done = true;
 		}
