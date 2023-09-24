@@ -38,7 +38,7 @@ const Home = () => {
 	}, [filter, tasks]);
 
 	useEffect(() => {
-		const auth = sessionStorage.getItem('auth');
+		const auth = localStorage.getItem('auth');
 
 		if (!auth) {
 			navigate('/');

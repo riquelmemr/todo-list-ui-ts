@@ -97,7 +97,7 @@ const usersSlice = createSlice({
 				state.id = action.payload.body.id;
 				state.email = action.payload.body.email;
 				state.name = action.payload.body.name;
-				sessionStorage.setItem('auth', action.payload.body.id);
+				localStorage.setItem('auth', action.payload.token);
 				return;
 			}
 		});

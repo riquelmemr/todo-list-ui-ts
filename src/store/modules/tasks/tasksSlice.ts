@@ -18,13 +18,21 @@ export const createTask = createAsyncThunk(
 	'tasks/createTask',
 	async (task: CreateTask, { dispatch }) => {
 		try {
-			const userId = sessionStorage.getItem('auth');
+			const token = localStorage.getItem('auth');
 
-			const response = await api.post(`/task/${userId}/create`, {
-				title: task.title,
-				description: task.description,
-				finishedDate: task.finishedDate || '',
-			});
+			const response = await api.post(
+				`/task/create`,
+				{
+					title: task.title,
+					description: task.description,
+					finishedDate: task.finishedDate || '',
+				},
+				{
+					headers: {
+						Authorization: `${token}`,
+					},
+				},
+			);
 
 			dispatch(
 				showNotification({
@@ -49,9 +57,13 @@ export const deleteTask = createAsyncThunk(
 	'tasks/deleteTask',
 	async (id: string, { dispatch }) => {
 		try {
-			const userId = sessionStorage.getItem('auth');
+			const token = localStorage.getItem('auth');
 
-			const response = await api.delete(`/task/${userId}/delete/${id}`);
+			const response = await api.delete(`/task/delete/${id}`, {
+				headers: {
+					Authorization: `${token}`,
+				},
+			});
 
 			dispatch(
 				showNotification({
@@ -77,12 +89,13 @@ export const updateTask = createAsyncThunk(
 	'tasks/updateTask',
 	async (task: UpdateTask, { dispatch }) => {
 		try {
-			const userId = sessionStorage.getItem('auth');
+			const token = localStorage.getItem('auth');
 
-			const response = await api.put(
-				`/task/${userId}/update/${task.id}`,
-				task,
-			);
+			const response = await api.put(`/task/update/${task.id}`, task, {
+				headers: {
+					Authorization: `${token}`,
+				},
+			});
 
 			dispatch(
 				showNotification({
@@ -108,10 +121,13 @@ export const findTasks = createAsyncThunk(
 	'tasks/findTasks',
 	async (filters: FiltersTask, { dispatch }) => {
 		try {
-			const userId = sessionStorage.getItem('auth');
+			const token = localStorage.getItem('auth');
 
-			const response = await api.get(`/task/${userId}`, {
+			const response = await api.get(`/task`, {
 				params: filters,
+				headers: {
+					Authorization: `${token}`,
+				},
 			});
 
 			return response.data;
@@ -131,9 +147,13 @@ export const getTask = createAsyncThunk(
 	'tasks/getTask',
 	async (id: string, { dispatch }) => {
 		try {
-			const userId = sessionStorage.getItem('auth');
+			const token = localStorage.getItem('auth');
 
-			const response = await api.get(`/task/${userId}/${id}`);
+			const response = await api.get(`/task/${id}`, {
+				headers: {
+					Authorization: `${token}`,
+				},
+			});
 
 			return response.data;
 		} catch (error: any) {

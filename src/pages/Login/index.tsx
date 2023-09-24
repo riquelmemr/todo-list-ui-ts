@@ -56,7 +56,7 @@ const Login: React.FC = () => {
 	};
 
 	useEffect(() => {
-		const auth = sessionStorage.getItem('auth');
+		const auth = localStorage.getItem('auth');
 
 		if (auth && status === 'Usuário logado com sucesso!') {
 			navigate('/home');

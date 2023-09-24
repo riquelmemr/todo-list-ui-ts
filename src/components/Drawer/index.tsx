@@ -140,7 +140,7 @@ const MiniDrawer: React.FC<MiniDrawerProps> = ({ children, titlePage }) => {
 	};
 
 	const handleLogout = () => {
-		sessionStorage.removeItem('auth');
+		localStorage.removeItem('auth');
 	};
 
 	return (
